@@ -13,7 +13,7 @@ It's a book about frontend interview question. We hope that it will help all jav
 
 ### Answer
 
-In JavaScript if you try to use a variable that doesn't exist and has not been declared, then JavaScript will throw an error `var name is not defined` and the script will stop execute thereafter. But If you use `typeof undeclared_variable` then it will return `undefined`.
+In JavaScript if you try to use a variable that doesn't exist and has not been declared, then JavaScript will throw an error `var name is not defined` and the script will stop executing thereafter. However if you use `typeof undeclared_variable` then it will return `undefined`.
 
 Before starting further discussion let's understand the difference between declaration and definition.
 
@@ -24,9 +24,15 @@ var x; // declaring x
 console.log(x); //output: undefined
 ```
 
-`var x = 1` is both declaration and definition (also we can say we are doing initialisation), Here declaration and assignment of value happen inline for variable x, In JavaScript every variable declaration and function declaration brings to the top of its current scope in which it's declared then assignment happen in order this term is called `hoisting`.
+`var x = 1` is both declaration and definition (also we can say we are doing initialisation). Here, declaration and assignment of value happens inline for variable x. In JavaScript every variable declaration (with `var`, but not with `let`) and function declaration brings it to the top of its current scope in which it's declared. The assignment will be performed in normal script execution order. This is called `hoisting`.
 
-A variable can be declared but not defined. When we try to access it, It will result `undefined`.
+```javascript
+console.log(x); // output: undefined
+var x = 1;
+console.log(x); // output: 1
+```
+
+A variable may be declared, but not defined. When we try to access it, it will return `undefined`.
 
 ```javascript
 var x; // Declaration
@@ -54,25 +60,26 @@ console.log(y);
 ```
 ### Answer 
 
-The code above would give the output `1undefined`. inside `if` statement we have `function f(){}`. Here's it's a function expression, not function statement, which is why f is not a variable. 
+The code above would give the output `1undefined`. We have `function f(){}` inside `if` statement. It's a function expression, not a function statement, which is why `f` is not a variable. 
 
-As a reminder, function expression is something like this: 
+Quick reminder: a function expression examples: 
 ```javascript
 var myFunc1 = new function() {}
 var myFunc2 = new function whatever() {} // whatever is not a variable here
+var myFunc3 = function() {}
 ```
 
-A function statement is something like this: 
+A function statement example: 
 ```javascript
 function myFunc3() {}
 ```
 You can read about [function expressions](https://developer.mozilla.org/en-US/docs/web/JavaScript/Reference/Operators/function) and [function statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) on MDN.
 
-## Question 3. What is the drawback of having private methods in a JavaScript object?
+## Question 3. What are the drawbacks of having private methods in a JavaScript object?
 
 ### Answer 
 
-One of the drawback of creating a private method in JavaScript is that they are very memory inefficient because a new copy of the method would be created for each instance.
+One of the drawbacks of creating a private method in JavaScript is that they are very memory inefficient because a new copy of the method would be created for each instance.
 
 ```javascript
 var Employee = function (name, company, salary) {
@@ -99,19 +106,19 @@ var emp2 = new Employee("Merry","Pluto",2000);
 var emp3 = new Employee("Ren","Pluto",2500);
 ```
 
-Here each instance variable `emp1`, `emp2`, `emp3` has own copy of increaseSalary private method. However the `displayIncreasedSalary` will only be added once to an object `Employee.prototype`.
+Here each instance variable `emp1`, `emp2`, `emp3` has its own copy of the private method `increaseSalary`. However the `displayIncreasedSalary` will only be added once to the object `Employee.prototype`.
 
-So as recommendation don't go for a private method unless it's necessary.
+We recommend to avoid private methods unless you have to.
 
 ## Question 4. What is “closure” in javascript? Can you provide an example?
 
 ### Answer 
 
-A closure is a function defined inside another function (called parent function) and has access to the variable which is declared and defined in parent function scope.
+A closure is a function defined inside another function (called parent function). Closure has access to the variable which is declared and defined in the parent function scope.
 
-The closure has access to the variable in three scopes:
-- Variable declared in his own scope
-- Variable declared in parent function scope
+Closure has access to the variable in three scopes:
+- Variable declared in its own scope
+- Variable declared in the parent function scope
 - Variable declared in the global namespace
 
 ```javascript
@@ -137,9 +144,9 @@ var globalVar = "abc";
 })(7); // Pass 7 as parameter
 ```
 
-`innerFunction` is closure which is defined inside `outerFunction` and has access to all variable which is declared and defined in outerFunction scope. In addition to this function defined inside the function as closure has access to the variable which is declared in `global namespace`.
+`innerFunction` is a closure which is defined inside `outerFunction` and has access to all variables declared and defined in the outerFunction scope. Additionally, function defined inside the function as closure has access to the variable which is declared in the `global namespace`.
 
-Output of above code would be:
+The output of above code would be:
 
 ```javascript
 outerArg = 7
@@ -149,7 +156,7 @@ innerFuncVar = y
 globalVar = abc
 ```
 
-## Question 5. Write a mul function which will properly when invoked as below syntax.
+## Question 5. Write a `mul` function which will return the following values when invoked as shown below.
 
 ```javascript
 console.log(mul(2)(3)(4)); // output : 24
